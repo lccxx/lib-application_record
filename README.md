@@ -1,0 +1,1 @@
+rails modle application record
