@@ -29,7 +29,7 @@ class ApplicationRecord < ActiveRecord::Base
     if args[:contain].blank?
       args[:contain] = { }
     else
-      args[:contain] = args[:contain].split(",").map { |item| [ item, 1 ] }.to_h
+      args[:contain] = args[:contain].gsub(/ /, '').split(",").map { |item| [ item, 1 ] }.to_h
     end
     r = r.map { |e| e.to_hash(args[:contain]) } if not args[:selfish]
     return { error: nil, t_count: t_count, data: r } if args[:info]
