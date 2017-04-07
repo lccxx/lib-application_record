@@ -1,9 +1,7 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  before_create { self.id = ("%7s%25s" % [
-      (Time.now.to_f * 10).to_i.to_s(36),
-      SecureRandom.uuid.gsub('-', '').to_i(16).to_s(36) ]).gsub(' ', '0') }
+  before_create { self.id = BSON::ObjectId.new.to_s.to_i(16).to_s(36) }
 
   def self.qry(args)
     r = self.all
