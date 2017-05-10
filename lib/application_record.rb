@@ -3,7 +3,7 @@ require 'bson'
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  before_create { self.id = BSON::ObjectId.new.to_s.to_i(16).to_s(36) }
+  before_create { self.id = BSON::ObjectId.new.to_s.to_i(16).to_s(36) if id.nil? }
 
   def self.qry(args)
     r = self.all
