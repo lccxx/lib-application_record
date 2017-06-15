@@ -9,10 +9,11 @@ class ApplicationRecord < ActiveRecord::Base
     r = self.all
 
     r = r.where(args[:where]) if args[:where]
+    if args[:like]
+      args[:like].map { |k, v| r = r.where("? LIKE ?", k, v.gsub('*', '%')) }
+    end
     if args[:send]
-      args[:send].map { |k, v|
-        r = r.where(id: self.send(*(([ k ] << v).flatten)))
-      }
+      args[:send].map { |k, v| r = r.where(id: self.send(*(([ k ] << v).flatten))) }
     end
     r = r.or(self.where(args[:or])) if args[:or]
     t_count = r.count if args[:info]
