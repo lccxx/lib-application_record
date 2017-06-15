@@ -29,7 +29,7 @@ class ApplicationRecord < ActiveRecord::Base
     args[:limit] = 999 if args[:limit].blank?
     r = r.limit(args[:limit])
     if args[:order]
-      args[:order][:id] = :desc if args[:order][:id].nil?
+      args[:order][:id] = :desc if args[:order][:id].nil? && !args[:no_id]
       r = r.order(args[:order])
     else
       r = r.order(id: :desc)
