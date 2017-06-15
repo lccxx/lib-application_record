@@ -10,7 +10,7 @@ class ApplicationRecord < ActiveRecord::Base
 
     r = r.where(args[:where]) if args[:where]
     if args[:like]
-      args[:like].map { |k, v| r = r.where("`#{k.gsub('`', '')}` LIKE ?", v.gsub('*', '%')) }
+      args[:like].map { |k, v| r = r.where("`#{k.to_s.gsub('`', '')}` LIKE ?", v.gsub('*', '%')) }
     end
     if args[:send]
       args[:send].map { |k, v| r = r.where(id: self.send(*(([ k ] << v).flatten))) }
