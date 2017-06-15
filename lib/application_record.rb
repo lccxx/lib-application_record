@@ -8,7 +8,15 @@ class ApplicationRecord < ActiveRecord::Base
   def self.qry(args)
     r = self.all
 
-    r = r.where(args[:where]) if args[:where]
+    if args[:where]
+      args[:where].map { |k, v|
+        if v.start_with?('~')
+          args[:like] = args[:like] || { }
+          args[:like][k] = v.sub('~', '')
+        end
+      }
+      r = r.where(args[:where])
+    end
     if args[:like]
       args[:like].map { |k, v| r = r.where("`#{k.to_s.gsub('`', '')}` LIKE ?", v.gsub('*', '%')) }
     end
