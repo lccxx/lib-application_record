@@ -12,7 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
       args[:where].map { |k, v|
         if v.start_with?('~')
           args[:like] = args[:like] || { }
-          args[:like][k] = args[:where].delete(k)sub('~', '')
+          args[:like][k] = args[:where].delete(k).sub('~', '')
         end
       }
       r = r.where(args[:where])
