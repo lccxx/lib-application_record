@@ -42,12 +42,19 @@ class ApplicationRecord < ActiveRecord::Base
     end
     r = r.map { |e| e.to_hash(args[:contain]) } if not args[:selfish]
     if args[:xls]
-      return Axlsx::Package.new { |p| p.workbook.add_worksheet { |sheet|
-        sheet.add_row r.first.keys
-        r.each { |row| sheet.add_row row.values } } }
+      return xls(r)
     end
     return { error: nil, t_count: t_count, data: r } if args[:info]
     return { error: nil, data: r }
+  end
+
+  def self.xls(data)
+    Axlsx::Package.new { |p| p.workbook.add_worksheet { |sheet|
+      if data.is_a?(Enumerable)
+        sheet.add_row data.first.keys if data.first
+        data.each { |row| sheet.add_row row.values }
+      end
+    } }
   end
 
   def to_hash(c={ })
