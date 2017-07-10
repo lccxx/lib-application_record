@@ -48,6 +48,12 @@ class ApplicationRecord < ActiveRecord::Base
     return { error: nil, data: r }
   end
 
+  def self.xlsx(argv)
+    argv[:xls] = 1
+    download_file = "#{self.class.table_name}-#{Time.now.strftime("%Y.%m.%d·%H.%M.%S")}.xlsx"
+    yield(self.class.qry(argv).to_stream.read, type: "application/xlsx", filename: download_file)
+  end
+
   def self.xls(data)
     Axlsx::Package.new { |p| p.workbook.add_worksheet { |sheet|
       if data.is_a?(Enumerable)

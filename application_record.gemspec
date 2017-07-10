@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "application_record"
-  s.version = "0.4.9"
+  s.version = "0.5.1"
   s.date = "2017-03-08"
   s.summary = "application record"
   s.authors = "Liu Chong <liuchong@about.me>"
