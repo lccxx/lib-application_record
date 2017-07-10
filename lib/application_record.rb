@@ -52,7 +52,7 @@ class ApplicationRecord < ActiveRecord::Base
     Axlsx::Package.new { |p| p.workbook.add_worksheet { |sheet|
       if data.is_a?(Enumerable)
         sheet.add_row data.first.keys if data.first
-        data.each { |row| sheet.add_row row.values }
+        data.each { |row| sheet.add_row row.values.map(&:to_s) }
       end
     } }
   end
