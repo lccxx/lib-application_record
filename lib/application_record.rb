@@ -55,7 +55,7 @@ class ApplicationRecord < ActiveRecord::Base
         data.each { |row|
           sheet.add_row { |line|
             row.map { |k, v|
-              next line.add_cell v.in_time_zone("Asia/Shanghai").to_s if k.ends_with?("_at")
+              next line.add_cell v.in_time_zone("Asia/Shanghai").to_s if k.to_s.ends_with?("_at")
               line.add_cell v.to_s
             }
           }
