@@ -50,8 +50,8 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.xlsx(argv)
     argv[:xls] = 1
-    download_file = "#{self.class.table_name}-#{Time.now.strftime("%Y.%m.%d·%H.%M.%S")}.xlsx"
-    yield(self.class.qry(argv).to_stream.read, type: "application/xlsx", filename: download_file)
+    download_file = "#{table_name}-#{Time.now.strftime("%Y.%m.%d·%H.%M.%S")}.xlsx"
+    yield(qry(argv).to_stream.read, type: "application/xlsx", filename: download_file)
   end
 
   def self.xls(data)
