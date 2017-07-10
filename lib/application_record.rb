@@ -52,7 +52,12 @@ class ApplicationRecord < ActiveRecord::Base
     Axlsx::Package.new { |p| p.workbook.add_worksheet { |sheet|
       if data.is_a?(Enumerable)
         sheet.add_row data.first.keys if data.first
-        data.each { |row| sheet.add_row row.values.map(&:to_s) }
+        data.each { |row|
+          row.map { |k, v|
+            next sheet.add_cell v.in_time_zone("Asia/Shanghai").to_s if k.ends_with?("_at")
+            sheet.add_cell v.to_s
+          }
+        }
       end
     } }
   end
